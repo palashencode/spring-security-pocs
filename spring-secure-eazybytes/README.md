@@ -43,8 +43,6 @@ SHA2-256(stdin)= 1e9519663c622699f95028079b4529a90932bca3c69785bb84c9f030a8bec44
 
 ```
 
-
-
 ### Api
 - http://localhost:8081/swagger-ui/index.html#/status-controller/status
 
