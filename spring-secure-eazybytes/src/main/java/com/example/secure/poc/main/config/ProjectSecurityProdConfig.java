@@ -15,20 +15,20 @@ import org.springframework.security.web.authentication.password.HaveIBeenPwnedRe
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-@Profile("!prod")
+@Profile("prod")
 @Configuration
-public class ProjectSecurityConfig {
+public class ProjectSecurityProdConfig {
 
     @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         http.sessionManagement(smc -> smc.invalidSessionUrl("/invalidsession.html")
-                        .maximumSessions(1).maxSessionsPreventsLogin(true))
-                .requiresChannel(rcc -> rcc.anyRequest().requiresInsecure()) // only http
+                .maximumSessions(1).maxSessionsPreventsLogin(true))
+                .requiresChannel(rcc -> rcc.anyRequest().requiresSecure()) // only https
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests) -> requests  // order matters
                 .requestMatchers("/", "/index.html", "/register", "/notices",
-                        "/contact", "/error", "/status", "invalidsession.html").permitAll()
+                        "/contact", "/error", "/status", "/invalidsession.html").permitAll()
                 .requestMatchers("/v3/api-docs*/**", "/swagger-ui/**").permitAll()
                 .requestMatchers("/myAccount", "/myBalance", "/myLoans", "/myCards").authenticated());
 //        http.formLogin(AbstractHttpConfigurer::disable); // form login configurer

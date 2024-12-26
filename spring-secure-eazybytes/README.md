@@ -1,11 +1,25 @@
 ### Start Params
-```
+
+``` bash
+# VM PARAMS ( with -D )
 -Dfile.encoding=UTF-8
+-Dspring.profiles.active=prod
+
+# ENV PARAMS ( in caps )
+SPRING_PROFILES_ACTIVE=prod
+
+```
+
+```java
+// Optional Configuration to allow login in non-prod without password.
+com.example.secure.poc.main.config.EazyBankNonProdUsernamePasswdAuthenticationProvider
+com.example.secure.poc.main.config.EazyBankProdUsernamePasswdAuthenticationProvider
+
 ```
 
 ### Application Properties ( optional )
 ```chatinput
-@ComponentScan(basePackages = {"com.example.secure.poc.code","com.example.secure.poc.main"}) 
+@ComponentScan(basePackages = {"com.example.secure.poc.noscan","com.example.secure.poc.main"}) 
 
 ```
 

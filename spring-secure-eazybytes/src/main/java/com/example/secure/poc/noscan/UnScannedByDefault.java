@@ -1,4 +1,4 @@
-package com.example.secure.poc.code;
+package com.example.secure.poc.noscan;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
