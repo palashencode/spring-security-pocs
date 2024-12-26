@@ -64,3 +64,4 @@ SHA2-256(stdin)= 1e9519663c622699f95028079b4529a90932bca3c69785bb84c9f030a8bec44
 ### Description
 This project created following the guidance from 
 - https://www.udemy.com/course/spring-security-zero-to-master/ 
+- https://github.com/eazybytes/spring-security
