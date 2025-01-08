@@ -1,0 +1,16 @@
+meta {
+  name: myBalance
+  type: http
+  seq: 2
+}
+
+get {
+  url: /myBalance
+  body: none
+  auth: basic
+}
+
+auth:basic {
+  username: john@example.com
+  password: admin@manage
+}

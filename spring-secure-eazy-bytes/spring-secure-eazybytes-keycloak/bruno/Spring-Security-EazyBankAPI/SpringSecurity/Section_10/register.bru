@@ -1,0 +1,21 @@
+meta {
+  name: register
+  type: http
+  seq: 7
+}
+
+post {
+  url: /register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "name": "John Doe",
+      "email": "john@example.com",
+      "mobileNumber": "4564747484",
+      "pwd": "admin@manage",
+      "role": "user"
+  }
+}

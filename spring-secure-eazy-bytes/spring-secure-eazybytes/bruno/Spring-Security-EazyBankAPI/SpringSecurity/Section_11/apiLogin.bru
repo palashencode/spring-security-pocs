@@ -1,0 +1,18 @@
+meta {
+  name: apiLogin
+  type: http
+  seq: 9
+}
+
+post {
+  url: /apiLogin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "username": "happy@example.com",
+      "password": "admin@54321"
+  }
+}

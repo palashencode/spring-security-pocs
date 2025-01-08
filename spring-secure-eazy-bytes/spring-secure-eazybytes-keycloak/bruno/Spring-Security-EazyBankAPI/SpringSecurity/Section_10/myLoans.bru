@@ -1,0 +1,20 @@
+meta {
+  name: myLoans
+  type: http
+  seq: 3
+}
+
+get {
+  url: /myLoans?id=1
+  body: none
+  auth: basic
+}
+
+params:query {
+  id: 1
+}
+
+auth:basic {
+  username: happy@example.com
+  password: admin@manage
+}

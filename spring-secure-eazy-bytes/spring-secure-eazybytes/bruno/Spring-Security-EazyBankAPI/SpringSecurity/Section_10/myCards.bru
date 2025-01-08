@@ -1,0 +1,20 @@
+meta {
+  name: myCards
+  type: http
+  seq: 4
+}
+
+get {
+  url: /myCards?id=1
+  body: none
+  auth: basic
+}
+
+params:query {
+  id: 1
+}
+
+auth:basic {
+  username: john@example.com
+  password: admin@manage
+}

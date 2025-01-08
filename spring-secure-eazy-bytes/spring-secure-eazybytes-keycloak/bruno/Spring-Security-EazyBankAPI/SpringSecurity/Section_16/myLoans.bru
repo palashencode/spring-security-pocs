@@ -1,0 +1,19 @@
+meta {
+  name: myLoans
+  type: http
+  seq: 3
+}
+
+get {
+  url: /myLoans?email=happy@example.com
+  body: none
+  auth: none
+}
+
+params:query {
+  email: happy@example.com
+}
+
+headers {
+  Authorization: eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJFYXp5IEJhbmsiLCJzdWIiOiJKV1QgVG9rZW4iLCJ1c2VybmFtZSI6ImhhcHB5QGV4YW1wbGUuY29tIiwiYXV0aG9yaXRpZXMiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImlhdCI6MTcxODgwNjQ0NCwiZXhwIjoxNzE4ODM2NDQ0fQ.eYmNefh26M3GtKAURjkDrGei4fs7-X6P-6jQztH1KAo
+}

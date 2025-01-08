@@ -1,0 +1,20 @@
+meta {
+  name: myAccount
+  type: http
+  seq: 1
+}
+
+get {
+  url: /myAccount?id=1
+  body: none
+  auth: basic
+}
+
+params:query {
+  id: 1
+}
+
+auth:basic {
+  username: smith@example.com
+  password: admin@manage
+}

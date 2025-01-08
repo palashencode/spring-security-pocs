@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sample OAuth2 Client App</title>
+</head>
+<body>
+<h1>This is a secure html page. You are authenticated.</h1>
+<h1>Map Data</h1>
+<ul>
+    <!-- Iterate over the map using Thymeleaf -->
+    <li th:each="entry : ${dataMap}">
+        <strong th:text="${entry.key}"></strong>: <span th:text="${entry.value}"></span>
+    </li>
+</ul>
+<h1><a href="/">Home</a>.</h1>
+<h1><a href="/logout">Logout</a>.</h1>
+</body>
+</html>

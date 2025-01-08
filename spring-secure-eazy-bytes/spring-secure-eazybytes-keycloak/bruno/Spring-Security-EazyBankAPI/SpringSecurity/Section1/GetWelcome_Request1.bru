@@ -1,0 +1,18 @@
+meta {
+  name: GetWelcome_Request1
+  type: http
+  seq: 1
+}
+
+get {
+  url: /status
+  body: none
+  auth: none
+}
+
+script:pre-request {
+  
+  console.log(req.url);
+  req.url = 'http://localhost:8081'+req.url;
+  console.log(req.url);
+}

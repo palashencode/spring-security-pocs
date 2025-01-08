@@ -1,0 +1,29 @@
+meta {
+  name: contact
+  type: http
+  seq: 6
+}
+
+post {
+  url: /contact
+  body: json
+  auth: basic
+}
+
+headers {
+  X-XSRF-TOKEN: 505f2ca2-58f9-472c-b3dc-33d4386dd6d9
+}
+
+auth:basic {
+  username: happy@example.com
+  password: admin@54321
+}
+
+body:json {
+  {
+      "contactName": "Madan Reddy",
+      "contactEmail": "tutor@eazybytes.com",
+      "subject": "Need a new saving account",
+      "message": "I want to open a new saving account in EazyBank"
+  }
+}
