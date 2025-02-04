@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Nav Bars and Menus-->
+
+<th:block th:fragment="navbar">
+    <!-- ✅ Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <!--            <a class="navbar-brand fw-bold" href="#">Brand-Hello</a>-->
+            <a class="navbar-brand fw-bold" href="/"><img th:src="@{/img/logo.png}" width="180" height="50" alt="warning"></a>
+            <!--            <img th:src="@{/img/logo.svg}" alt="warning/">-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <div th:replace="fragments/fragment :: top-navbar-links"></div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+<th:block th:fragment="navbar-blank">
+    <!-- ✅ Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <!--            <a class="navbar-brand fw-bold" href="#">Brand-Hello</a>-->
+            <a class="navbar-brand fw-bold" href="/"><img th:src="@{/img/logo.png}" width="180" height="50" alt="warning"></a>
+            <!--            <img th:src="@{/img/logo.svg}" alt="warning/">-->
+        </div>
+    </nav>
+</th:block>
+
+<th:block th:fragment="offcanvas-navbar">
+    <!-- ✅ Off Canvas Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-lg">
+            <!--            <a class="navbar-brand" href="#">MyBrand</a>-->
+            <a class="navbar-brand fw-bold" href="/"><img th:src="@{/img/logo.png}" width="180" height="50" alt="warning"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+                <div class="offcanvas-header">
+                    <!--                    <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Logo-Dark</h5>-->
+                    <a class="offcanvas-title" href="/"><img th:src="@{/img/logo_left.png}" width="180" height="50" alt="warning"></a>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                        <div th:replace="fragments/fragment :: top-navbar-links"></div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</th:block>
+
+<th:block th:fragment="top-navbar-links">
+    <li class="nav-item"><a class="nav-link active" th:href="@{/web/home}">Home</a></li>
+    <li class="nav-item"><a class="nav-link" th:href="@{/web/about}" >About</a></li>
+    <li class="nav-item"><a class="nav-link" th:href="@{/web/services}">Services</a></li>
+    <li class="nav-item"><a class="nav-link" th:href="@{/web/contact}">Contact</a></li>
+    <th:block sec:authorize="isAuthenticated()">
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+               role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user d-none d-lg-inline"></i>
+                <span class="d-lg-none">Account</span>
+            </a>
+            <ul class="dropdown-menu bg-dark" style="border: none;" aria-labelledby="navbarDropdown">
+                <li><a class="dropdown-item nav-link d-inline-block ps-2" href="#"> Action</a></li>
+                <li><a class="dropdown-item nav-link d-inline-block ps-2" href="#">Another action</a></li>
+                <!-- Divider styled for dark theme -->
+                <!-- <li><hr class="dropdown-divider" style="border-color: rgba(255, 255, 255, 0.1);"></li>
+                <li><a class="dropdown-item nav-link d-inline-block ps-3" href="#">Something else here</a></li> -->
+            </ul>
+        </li>
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <li>
+            <a th:href="@{/web/login}" class="btn btn-secondary">Login</a></li>
+        </li>
+    </th:block>
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/logout}" method="post">
+            <li>
+                <button type="submit" class="btn nav-link ms-lg-3 d-lg-none">Logout</button>
+            </li>
+            <li class="nav-item d-none d-lg-inline bg-info ">
+                <button type="submit" data-bs-toggle="logout" class="btn btn-danger nav-link"><i class="fa-sharp fa-solid fa-right-from-bracket"></i></button>
+            </li>
+        </form>
+    </th:block>
+</th:block>
+
+
+<!-- Toast Utility -->
+<th:block th:fragment="toast-list">
+    <div class="toast-container position-fixed bottom-0 end-0 p-1">
+        <th:block th:if="${toastList != null and !toastList.isEmpty()}">
+            <th:block th:each="toast, i : ${toastList}">
+                <div th:id="'toast-' + ${i.index}" class="toast mb-2" role="alert" aria-live="assertive" aria-atomic="true"
+                     data-bs-autohide="true" th:classappend="${toast} ? 'show' : 'hide'">
+                    <div class="toast-header">
+                        <strong class="me-auto" th:classappend="${toast.type.color}">
+                            <span th:text="${toast.headMsg}"></span><i class="ps-1" th:classappend="${toast.type.icon}"></i>
+                        </strong>
+                        <small th:text="${toast.time}"></small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        <div class="d-flex flex-column align-items-start text-start">
+                            <div th:classappend="${toast.type.color}">
+                                <span th:text="${toast.bodyMsg}"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </th:block>
+    </div>
+</th:block>
+
+
+
+
+
+
+</body>
+</html>

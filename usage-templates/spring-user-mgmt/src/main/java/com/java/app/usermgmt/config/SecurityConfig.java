@@ -1,0 +1,93 @@
+package com.java.app.usermgmt.config;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.authentication.switchuser.SwitchUserFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.HttpSessionCsrfTokenRepository;
+import org.springframework.security.web.server.authentication.SwitchUserWebFilter;
+
+import javax.sql.DataSource;
+
+@Configuration
+@RequiredArgsConstructor
+public class SecurityConfig {
+
+    private final UserDetailsService userDetailsService;
+    private final DataSource dataSource;;
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChainForSessionManagement(HttpSecurity http
+                                        ,CustomLoginSuccessHandler successHandler) throws Exception {
+        http.authorizeHttpRequests(r -> r
+                .requestMatchers("/v3/api-docs*/**", "/swagger-ui/**").permitAll()
+                .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**", "/favicon.ico").permitAll() // Allow static resources
+                .requestMatchers("/","/web/public/**", "/web/home", "/web/forgot-password"
+                                                        , "/web/reset-password", "/web/change-password"
+                                                        , "/web/verify-user"
+                                                        , "/web/login-link", "/web/login-link-generate"
+                                                        ,"/error","/web/about", "/web/contact", "/web/services"
+                                                        ,"/web/signup","/web/login", "/login", "/perform_login").permitAll()
+                .requestMatchers("/api/public/**", "/api/password/**").permitAll()
+                .requestMatchers("/web/secure/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/app/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/api/admin/impersonate/exit").hasRole("PREVIOUS_ADMINISTRATOR")
+                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated())
+                .csrf(Customizer.withDefaults())
+                .csrf(c -> c.ignoringRequestMatchers("/logout", "/login", "/web/login", "/api/app/csrf-token",
+                                                "/api/admin/impersonate", "/api/admin/impersonate/exit",
+                                                "/api/password/change"))
+                .rememberMe(r -> r
+                                // Cookie Based RememberMe, survives server restart
+//                                .userDetailsService(userDetailsService)
+                                // Persistent RememberMe, survives server restart
+                                // The server keeps rotating the remember-me cookie value everytime it is used
+                                .tokenRepository(persistentTokenRepository())
+                                // common parameters
+                                .key("secret-remember-me")
+                                .rememberMeCookieName("remember-me-cookie")
+                                .tokenValiditySeconds(864000))
+                // This additional attribute makes a Persistent Remember Me Cookie
+//                .formLogin(Customizer.withDefaults());
+                .formLogin(c -> c.loginPage("/web/login")
+                        .successHandler(successHandler)
+                        .loginProcessingUrl("/perform_login")
+                        .failureUrl("/web/login?error=true"))
+                .logout(c -> c.logoutUrl("/logout")
+                        .logoutSuccessUrl("/web/home"));
+//                .httpBasic(Customizer.withDefaults());
+        return http.build();
+    }
+
+    public PersistentTokenRepository persistentTokenRepository(){
+        JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
+        db.setDataSource(dataSource);
+        return db;
+
+    }
+
+    @Bean
+    public PasswordEncoder getPasswordEncoder(){
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
+    @Bean
+    public SwitchUserFilter switchUserFilter(){
+        SwitchUserFilter filter = new SwitchUserFilter();
+        filter.setUserDetailsService(userDetailsService);
+        filter.setSwitchUserUrl("/api/admin/impersonate");
+        filter.setExitUserUrl("/api/admin/impersonate/exit");
+        filter.setTargetUrl("/api/app/switch-success");
+        return filter;
+    }
+
+}

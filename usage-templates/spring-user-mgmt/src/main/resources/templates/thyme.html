@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/fragment :: head"></div>
+<body>
+<div class="container mt-3">
+    <div class="row row-cols-1 gy-3">
+        <div class="col display-4">This is a thymeleaf demo </div>
+        <div class="col"><p th:text="${msg}">Default text</p></div>
+        <div class="col"><img th:attr="src=${imageUrl}" /></div>
+        <div class="col">
+            <p th:if="${isLoggedIn}">Welcome back!</p>
+            <p th:unless="${isLoggedIn}">Please log in.</p>
+        </div>
+        <div class="col">
+            <ul>
+                <li th:each="l : ${list}" th:text="${l}"></li>
+            </ul>
+        </div>
+        <div class="col">
+            <input type="text" th:value="${username}" />
+        </div>
+        <div class="col">
+            <div th:switch="${status}">
+                <p th:case="'success'">Success!</p>
+                <p th:case="'error'">Error occurred.</p>
+                <p th:case="*">Unknown status</p>
+            </div>
+        </div>
+        <div class="col">
+            <div th:replace="fragments/fragment :: fragment1"></div>
+        </div>
+        <div class="col">
+            <p th:if="${#strings.isEmpty(name)}">Name is missing</p>
+        </div>
+        <div class="col">
+            <p th:text="${name ?: 'Guest'}"></p>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+    </div>
+</div>
+
+
+</body>
+</html>

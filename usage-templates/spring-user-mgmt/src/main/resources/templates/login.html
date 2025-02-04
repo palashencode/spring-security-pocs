@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout-blank">
+
+<body>
+<div layout:fragment="content">
+    <div class="login-page">
+        <div class="container mt-5 login-box text-center">
+            <div class="row">
+                <div class="col">
+                    <form th:action="@{/perform_login}" method="post">
+                        <a href="/"><img th:src="@{/img/bear.png}" class="mb-3" alt=""></a>
+                        <div th:if="${loginError}" class="error">
+                            <div class="alert alert-danger alert-dismissible show" role="alert">
+                                <strong>Error</strong> : Wrong username or password.
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                            </div>
+                        </div>
+                        <!-- <img src="./img/yeti_head_128.png" class="mb-3" alt=""> -->
+                        <!-- <h2 class="mb-4 fw-bold text-primary">Login</h2> -->
+
+                        <!-- Email input -->
+                        <div class="mb-3 glow-on-select">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-regular fa-envelope"></i></span>
+                                <input type="email" class="form-control" id="username" name="username"
+                                       placeholder="Email" required autofocus>
+                            </div>
+                        </div>
+
+                        <!-- Password input -->
+                        <div class="mb-3" id="password-box">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fa-solid fa-lock"></i></span>
+                                <input type="password" class="form-control" id="password" name="password"
+                                       placeholder="Password" required>
+                            </div>
+                        </div>
+
+                        <!-- 2 column grid layout for inline styling -->
+                        <div class="row mb-4">
+                            <div class="col d-flex justify-content-center">
+                                <!-- Checkbox -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name='remember-me' value="yes"
+                                           id="remember-me-id"/>
+                                    <label class="form-check-label" for="remember-me-id">Remember me</label>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <!-- Simple link -->
+                                <a th:href="@{/web/forgot-password}">Forgot password?</a>
+                            </div>
+                        </div>
+                        <!-- Submit button -->
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-primary">Login</button>
+
+                            <div class="d-flex align-items-center gap-2">
+                                <input class="form-check-input" type="checkbox" name="login-otp" id="login-otp" onclick="togglePasswordField()"/>
+                                <button class="btn btn-secondary flex-grow-1" formmethod="post" th:attr="formaction=@{/web/login-link-generate}">
+                                    One-time Login with Email
+                                </button>
+                            </div>
+
+<!--                            <div class="d-flex align-items-center justify-content-center gap-2">-->
+<!--                                <input class="form-check-input" type="checkbox" name="login-otp" id="login-otp" onclick="togglePasswordField()"/>-->
+<!--                                <label class="form-check-label" for="login-otp">One-time Login with Email</label>-->
+<!--                            </div>-->
+<!--                            <button class="btn btn-secondary" formmethod="post" th:attr="formaction=@{/web/login-link-generate}">-->
+<!--                                One-time Login with Email-->
+<!--                            </button>-->
+
+                            <button class="btn btn-secondary" formmethod="post" th:attr="formaction=@{/web/signup}">
+                                    Register/Sign Up</button>
+                        </div>
+                    </form>
+                    <script>
+                        function togglePasswordField() {
+                            let otpCheckbox = document.getElementById("login-otp");
+                            let passwordField = document.getElementById("password");
+                            let passwordBox = document.getElementById("password-box");
+
+                            if (otpCheckbox.checked) {
+                                passwordField.disabled = true;
+//                                passwordField.style.visibility = "none";
+                                passwordBox.style.display = "none";
+                                passwordField.removeAttribute("required");
+                            } else {
+                                passwordField.disabled = false;
+//                                passwordField.style.visibility = "block";
+                                passwordBox.style.display = "block";
+                                passwordField.setAttribute("required", "required");
+                            }
+                        }
+                    </script>
+                    <div class="my-3">Or</div>
+                    <button class="btn btn-light w-100 mb-2">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                             width="20" class="me-2">
+                        Continue with Google
+                    </button>
+                    <button class="btn btn-light w-100">
+                        <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google"
+                             width="20" class="me-2">
+                        Continue with Google
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

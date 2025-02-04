@@ -1,0 +1,394 @@
+{
+	"info": {
+		"_postman_id": "4fd5f504-f717-4164-bb77-e0b7ce6e9b5b",
+		"name": "Spring User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11496229"
+	},
+	"item": [
+		{
+			"name": "public_status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=B8504CCD82140E7884DDC4B185B172EA",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:60200/public/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"public",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "app/info",
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=F82A89CE5628AC8707095E4F6A9A198C",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "Suett2z0fuES6I5yNoLYe8lwesiiy1IWRKNEFxS05c5rWKPXLtHIhFvCT9Q_iexLBa_sSvhGV_HErzA7cJV0cXXWg6oJOcW1",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=43AED610713CC00AFAC3975A806CFD47",
+						"type": "text"
+					},
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "qZiu32AsEBAdgQGUIRNUCihskB7VtPxeb6K3zJ6ULnfWoBbLy6uWu1VJJHQwsjagEz5gPRpdvSawh8xzXsGE_amlSEGwkS77",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=966612C33CDD26968BFEA68E56F7DD6C",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-CSRF-TOKEN",
+						"value": "pcjJTbulAJGq9tRw3zDpT5FPWJVRVq8X0zeUn1wrDoUAugrCxqnxK92cNaOHwOYWvh3dLvcpdfQ0Zsw661an_WpKNrE022_z",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:60200/app/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"app",
+						"info"
+					],
+					"query": [
+						{
+							"key": "_csrf",
+							"value": "c41678d3-a918-4a29-b40e-b38facc01c96",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "csrf-token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=43AED610713CC00AFAC3975A806CFD47",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=C368000183D81ED02EA0EA11536074B4",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "580F00C78D52DAEF718D82B332D76F8C",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:60200/app/csrf-token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"app",
+						"csrf-token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/impersonate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=43AED610713CC00AFAC3975A806CFD47",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "qZiu32AsEBAdgQGUIRNUCihskB7VtPxeb6K3zJ6ULnfWoBbLy6uWu1VJJHQwsjagEz5gPRpdvSawh8xzXsGE_amlSEGwkS77",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "john@example.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:60200/admin/impersonate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"admin",
+						"impersonate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin/impersonate/exit",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=1CA066304FB5A2F33BDEE278E9298D84",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "Rd0Zf__Mb75RiD2e2VGjhzadgWCMrLFlpulQV9MM3kvCMLxTdOkhSJuvVop8vQ6m4HyX4VWrrFnpztRIwNE2buo0uHjxBthl",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:60200/admin/impersonate/exit",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"admin",
+						"impersonate",
+						"exit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/admin/info",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=5F2125306049D1D30B62779843FD6A30",
+						"type": "text"
+					},
+					{
+						"key": "X-XSRF-TOKEN",
+						"value": "Rd0Zf__Mb75RiD2e2VGjhzadgWCMrLFlpulQV9MM3kvCMLxTdOkhSJuvVop8vQ6m4HyX4VWrrFnpztRIwNE2buo0uHjxBthl",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:60200/admin/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"admin",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"protocolProfileBehavior": {
+				"disableCookies": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=B5EB600CA20D6FB0AA147ECCC2092F6A",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:60200/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"protocolProfileBehavior": {
+				"disableCookies": false
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "jane@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:60200/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,32 @@
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
+<!-- Common header fragment -->
+<div class="header-section" th:fragment="header">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+        <link th:href="@{/css/custom.css}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+        <script th:src="@{/js/bootstrap.bundle.min.js}" defer></script>
+        <title>Thymeleaf Demo</title>
+        <style>
+            /* Ensure the text remains visible and the background doesn't turn white on hover */
+            .dropdown-item:hover {
+                background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+                color: white; /* Keep text white on hover */
+            }
+
+            /* Optionally, you can also add focus styles */
+            .dropdown-item:focus {
+                background-color: rgba(255, 255, 255, 0.1); /* Same light background on focus */
+                color: white;
+            }
+        </style>
+    </head>
+</div>

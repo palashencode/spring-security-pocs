@@ -1,0 +1,146 @@
+{
+	"info": {
+		"_postman_id": "4fd5f504-f717-4164-bb77-e0b7ce6e9b5b",
+		"name": "Spring User Management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11496229"
+	},
+	"item": [
+		{
+			"name": "public_status",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=B8504CCD82140E7884DDC4B185B172EA",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:60200/public/status",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"public",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "app/info",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=A1ACE0401B6344838F9A034A6035485C",
+						"type": "text",
+						"disabled": true
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=B5EB600CA20D6FB0AA147ECCC2092F6A",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:60200/app/info",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"app",
+						"info"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=B5EB600CA20D6FB0AA147ECCC2092F6A",
+						"type": "text"
+					},
+					{
+						"key": "Cookie",
+						"value": "JSESSIONID=",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "http://localhost:60200/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "jane@example.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "manage",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:60200/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "60200",
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
