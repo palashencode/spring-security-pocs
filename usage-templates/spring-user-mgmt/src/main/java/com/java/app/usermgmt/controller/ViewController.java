@@ -1,12 +1,17 @@
 package com.java.app.usermgmt.controller;
 
+import com.java.app.usermgmt.entity.User;
+import com.java.app.usermgmt.entity.UserData;
 import com.java.app.usermgmt.model.ActionResult;
 import com.java.app.usermgmt.model.ForgotPasswordRequest;
 import com.java.app.usermgmt.model.ResetPasswordData;
+import com.java.app.usermgmt.repository.UserDataRepository;
+import com.java.app.usermgmt.repository.UserRepository;
 import com.java.app.usermgmt.service.PasswordManagementService;
 import com.java.app.usermgmt.utils.SessionUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +23,19 @@ import java.util.List;
 public class ViewController {
 
     private final PasswordManagementService passwordManagementService;
+    private final UserRepository userRepository;
+    private final UserDataRepository userDataRepository;
 
     private static final String SUCCESS_MSG_KEY = "successMsg";
     private static final String ERROR_MSG_KEY = "errorMsg";
     private static final String INFO_MSG_KEY = "infoMsg";
 
-    public ViewController(PasswordManagementService passwordManagementService){
+    public ViewController(PasswordManagementService passwordManagementService
+                                                    ,UserRepository userRepository
+                                                    ,UserDataRepository userDataRepository){
         this.passwordManagementService = passwordManagementService;
+        this.userRepository = userRepository;
+        this.userDataRepository = userDataRepository;
     }
 
     @RequestMapping("/web/public/thyme")
@@ -123,6 +134,27 @@ public class ViewController {
         SessionUtils.addPasswordResetTokenToSessionAndModel(session, model, token);
         SessionUtils.addAuthenticityTokenToSessionAndModel(session, model);
         return "reset-password";
+    }
+
+    @GetMapping("/web/user")
+    public String viewUser(HttpSession session, Model model, Authentication authentication){
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
+        Integer userId = user.getUserId();
+        List<UserData> userDataList = userDataRepository.findByUserId(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("username", username);
+        model.addAttribute("userDataList", userDataList);
+        return "user";
+    }
+
+    @GetMapping("/web/admin")
+    public String viewAdmin(HttpSession session, Model model, Authentication authentication){
+        String username = authentication.getName();
+        List<User> userList = (List<User>) userRepository.findAll();
+        model.addAttribute("username", username);
+        model.addAttribute("userList", userList);
+        return "admin";
     }
 
     @PostMapping("/web/reset-password")

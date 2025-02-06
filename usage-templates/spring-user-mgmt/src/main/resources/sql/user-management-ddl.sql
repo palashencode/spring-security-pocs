@@ -69,6 +69,13 @@ create table role_permission_mapping (
 	FOREIGN KEY (role) REFERENCES roles(role)
     );
 
+create table users_data_para(
+    entry_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNIQUE,
+    data_entry varchar(500),
+    last_modified_at TIMESTAMP
+    );
+
 create table users_data_list(
     entry_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
@@ -152,5 +159,10 @@ select * from pending_user_verification;
 delete from login_magic_link;
 delete from pending_user_verification;
 delete from users where username = 'pnandi@gmail.com'
+
+delete from users where user_id = 10006;
+delete from user_role_mapping where user_id = 10006;
+
+update user_role_mapping set role="ROLE_ADMIN" where user_id=10007
 
 describe password_reset;

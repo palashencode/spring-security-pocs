@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layouts/default-layout">
+
+<body>
+<div layout:fragment="content">
+    <!-- ✅ Hero Section -->
+    <section class="d-flex flex-column align-items-center justify-content-center text-center min-vh-100 bg-light">
+        <div>
+            <h1 class="display-4 fw-bold">User Page</h1>
+            <p class="lead">This should be accessible to users with ROLE_USER</p>
+            <div sec:authorize="isAuthenticated()">
+                <p>Logged in as: <span sec:authentication="name"></span></p>
+                <p>Roles: <span sec:authentication="authorities"></span></p>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit">Logout</button>
+                </form>
+
+                <h2 class="mb-4">User Details</h2>
+                <!-- User Information Section -->
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">User Information</h4>
+                        <p><strong>User ID:</strong> <span th:text="${user.userId}"></span></p>
+                        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+                        <p><strong>First Name:</strong> <span th:text="${user.firstname}"></span></p>
+                        <p><strong>Last Name:</strong> <span th:text="${user.lastname}"></span></p>
+                        <p><strong>Status:</strong> <span th:text="${user.active ? 'Active' : 'Inactive'}"></span></p>
+                    </div>
+                </div>
+
+                <!-- User Meta Section (Check if user.detail is not null) -->
+                <div class="card mt-4" th:if="${user.detail != null}">
+                    <div class="card-body">
+                        <h4 class="card-title">User Meta</h4>
+                        <p><strong>Phone Number:</strong> <span th:text="${user.detail.phoneNo}"></span></p>
+                        <p><strong>Profile Picture:</strong> <img th:src="${user.detail.profilePic}" alt="Profile Picture" class="img-fluid" style="max-width: 200px;"></p>
+                        <p><strong>Bio:</strong> <span th:text="${user.detail.bio}"></span></p>
+                    </div>
+                </div>
+                <!-- Fallback message if user.detail is null -->
+                <div class="card mt-4" th:if="${user.detail == null}">
+                    <div class="card-body">
+                        <h4 class="card-title">User Meta</h4>
+                        <p>No meta information available for this user.</p>
+                    </div>
+                </div>
+
+                <!-- User Roles Section -->
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h4 class="card-title">Roles</h4>
+                        <ul>
+                            <li th:each="role : ${user.roles}" th:text="${role.role}"></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <table class="table table-striped table-bordered">
+                    <thead class="table-dark">
+                    <tr>
+                        <th>Entry ID</th>
+                        <th>User ID</th>
+                        <th>Entry</th>
+                        <th>Sort Order</th>
+                        <th>Created At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="userData : ${userDataList}">
+                        <td th:text="${userData.entryId}"></td>
+                        <td th:text="${userData.userId}"></td>
+                        <td th:text="${userData.entry}"></td>
+                        <td th:text="${userData.sortOrder}"></td>
+                        <td th:text="${#temporals.format(userData.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+    <!-- End of Content -->
+</div>
+
+</body>
+</html>
+
+
+

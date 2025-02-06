@@ -29,7 +29,7 @@ public class AppConfig {
         return new InMemoryClientRegistrationRepository(git, google);
     }
     private ClientRegistration githubClientRegistration(){
-        return CommonOAuth2Provider.GITHUB.getBuilder("github-registrar")
+        return CommonOAuth2Provider.GITHUB.getBuilder("github")
                 .clientId("Ov23lix8qZHJWeBmZ0jR")
                 .clientSecret("afa1d55ace90cfea9dc8eb38a510fd5a137e7ae1")
                 .build();

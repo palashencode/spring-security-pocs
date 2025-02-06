@@ -5,9 +5,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -39,6 +43,8 @@ public class SecurityConfig {
                                                         ,"/web/signup","/web/login", "/login", "/perform_login").permitAll()
                 .requestMatchers("/api/public/**", "/api/password/**").permitAll()
                 .requestMatchers("/web/secure/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/web/user/**").hasAnyRole("USER", "ADMIN")
+                .requestMatchers("/web/admin/**").hasAnyRole("ADMIN")
                 .requestMatchers("/api/app/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/api/admin/impersonate/exit").hasRole("PREVIOUS_ADMINISTRATOR")
                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated())
@@ -57,23 +63,49 @@ public class SecurityConfig {
                                 .rememberMeCookieName("remember-me-cookie")
                                 .tokenValiditySeconds(864000))
                 // This additional attribute makes a Persistent Remember Me Cookie
-//                .formLogin(Customizer.withDefaults());
                 .formLogin(c -> c.loginPage("/web/login")
                         .successHandler(successHandler)
                         .loginProcessingUrl("/perform_login")
                         .failureUrl("/web/login?error=true"))
+                .oauth2Login(o -> o.loginPage("/web/login"))
                 .logout(c -> c.logoutUrl("/logout")
                         .logoutSuccessUrl("/web/home"));
 //                .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
+    // For Remember-Me
     public PersistentTokenRepository persistentTokenRepository(){
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;
 
     }
+
+    @Bean
+    ClientRegistrationRepository clientRegistrationRepository(){
+        ClientRegistration git = githubClientRegistration();
+        ClientRegistration google = googleClientRegistration();
+        return new InMemoryClientRegistrationRepository(git, google);
+    }
+
+    private ClientRegistration githubClientRegistration(){
+        return CommonOAuth2Provider.GITHUB.getBuilder("github")
+                .clientId("Ov23liY8Xlu3FkrcCgRL")
+                .clientSecret("ffc8d8d5a645ba68715b2535cd4d9cc6cb51cd52")
+                .scope("read:user", "user:email")
+                .build();
+    }
+
+    private ClientRegistration googleClientRegistration(){
+        return CommonOAuth2Provider.GOOGLE.getBuilder("google")
+                .clientId("736116120342-nqevg7h3abrv31gjl8f7n56b1rdvt15q.apps.googleusercontent.com")
+                .clientSecret("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")
+                .scope("profile", "email")
+                .build();
+    }
+
+
 
     @Bean
     public PasswordEncoder getPasswordEncoder(){
