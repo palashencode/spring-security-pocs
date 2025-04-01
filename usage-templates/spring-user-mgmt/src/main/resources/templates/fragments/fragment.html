@@ -133,10 +133,14 @@
     </div>
 </th:block>
 
+<!-- List Item -->
 
-
-
-
+<li th:fragment="listItemSuccess(label, value)" class="list-group-item">
+    <span class="text-success me-2">
+        <i class="bi bi-check2-square"></i>
+    </span>
+    <span th:text="|${label}: ${value}|"></span>
+</li>
 
 </body>
 </html>

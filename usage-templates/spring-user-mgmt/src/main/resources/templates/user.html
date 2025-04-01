@@ -7,37 +7,45 @@
 <body>
 <div layout:fragment="content">
     <!-- ✅ Hero Section -->
-    <section class="d-flex flex-column align-items-center justify-content-center text-center min-vh-100 bg-light">
-        <div>
+    <section class="d-flex flex-column align-items-center justify-content-center text-center min-vh-100 bg-light mt-4">
+        <div class="container">
             <h1 class="display-4 fw-bold">User Page</h1>
             <p class="lead">This should be accessible to users with ROLE_USER</p>
             <div sec:authorize="isAuthenticated()">
-                <p>Logged in as: <span sec:authentication="name"></span></p>
-                <p>Roles: <span sec:authentication="authorities"></span></p>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Logout</button>
-                </form>
-
+                <ul class="list-group list-group-flush text-start mt-4">
+                    <li class="list-group-item">
+                        <span class="text-success"><i class="bi bi-check2-square"></i></span>
+                        Logged in as: <span sec:authentication="name"></li>
+                    <li class="list-group-item">
+                        <span class="text-primary"><i class="bi bi-check2-square"></i></span>
+                        Roles: <span sec:authentication="authorities"></li>
+                </ul>
+<!--                <p>Logged in as: <span sec:authentication="name"></span></p>-->
+<!--                <p>Roles: <span sec:authentication="authorities"></span></p>-->
+<!--                <form th:action="@{/logout}" method="post">-->
+<!--                    <button type="submit">Logout</button>-->
+<!--                </form>-->
                 <h2 class="mb-4">User Details</h2>
                 <!-- User Information Section -->
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">User Information</h4>
-                        <p><strong>User ID:</strong> <span th:text="${user.userId}"></span></p>
-                        <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
-                        <p><strong>First Name:</strong> <span th:text="${user.firstname}"></span></p>
-                        <p><strong>Last Name:</strong> <span th:text="${user.lastname}"></span></p>
-                        <p><strong>Status:</strong> <span th:text="${user.active ? 'Active' : 'Inactive'}"></span></p>
+                        <h4 class="card-title text-start">User Information</h4>
+                        <ul class="list-group list-group-flush text-start mt-4">
+                            <li th:replace="fragments/fragment :: listItemSuccess('User ID: ', ${user.userId})"></li>
+                            <li th:replace="fragments/fragment :: listItemSuccess('Username: ', ${user.username})"></li>
+                            <li th:replace="fragments/fragment :: listItemSuccess('First Name, Last Name', ${user.firstname + ', ' + user.lastname})"></li>
+                            <li th:replace="fragments/fragment :: listItemSuccess('Status: ', ${user.active ? 'Active' : 'Inactive'})"></li>
+                        </ul>
                     </div>
                 </div>
 
                 <!-- User Meta Section (Check if user.detail is not null) -->
                 <div class="card mt-4" th:if="${user.detail != null}">
                     <div class="card-body text-start">
-                        <h4 class="card-title">User Meta</h4>
-                        <p><strong>Phone Number:</strong> <span th:text="${user.detail.phoneNo}"></span></p>
+                        <h4 class="card-title text-start">User Meta</h4>
                         <p><strong>Profile Picture:</strong> <img th:src="${user.detail.profilePic}" alt="Profile Picture" class="img-fluid" style="max-width: 200px;"></p>
-                        <p><strong>Bio:</strong> <span th:text="${user.detail.bio}"></span></p>
+                        <li th:replace="fragments/fragment :: listItemSuccess('Phone Number:', ${user.detail.phoneNo})"></li>
+                        <li th:replace="fragments/fragment :: listItemSuccess('Bio:', ${user.detail.bio})"></li>
                     </div>
                 </div>
                 <!-- Fallback message if user.detail is null -->
@@ -50,7 +58,7 @@
 
                 <!-- User Roles Section -->
                 <div class="card mt-4">
-                    <div class="card-body">
+                    <div class="card-body text-start">
                         <h4 class="card-title">Roles</h4>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item" th:each="role : ${user.roles}" th:text="${role.role}"></li>

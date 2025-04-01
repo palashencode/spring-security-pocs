@@ -8,17 +8,25 @@
 <div layout:fragment="content">
     <!-- ✅ Hero Section -->
     <section class="d-flex align-items-center justify-content-center text-center vh-100 bg-light">
-        <div>
+        <div class="container">
             <h1 class="display-4 fw-bold">Admin Page</h1>
             <p class="lead">This is the user admin page, should be only accessible to ROLE_ADMIN</p>
             <div sec:authorize="isAuthenticated()">
-                <p>Logged in as: <span sec:authentication="name"></span></p>
-                <p>Roles: <span sec:authentication="authorities"></span></p>
-                <form th:action="@{/logout}" method="post">
-                    <button type="submit">Logout</button>
-                </form>
+                <ul class="list-group list-group-flush text-start mt-4 mb-2">
+                    <li class="list-group-item">
+                        <span class="text-success"><i class="bi bi-check2-square"></i></span>
+                        Logged in as: <span sec:authentication="name"></li>
+                    <li class="list-group-item">
+                        <span class="text-primary"><i class="bi bi-check2-square"></i></span>
+                        Roles: <span sec:authentication="authorities"></li>
+                </ul>
+<!--                <p>Logged in as: <span sec:authentication="name"></span></p>-->
+<!--                <p>Roles: <span sec:authentication="authorities"></span></p>-->
+<!--                <form th:action="@{/logout}" method="post">-->
+<!--                    <button type="submit">Logout</button>-->
+<!--                </form>-->
 
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered mt-2">
                     <thead class="table-dark">
                     <tr>
                         <th>User ID</th>
