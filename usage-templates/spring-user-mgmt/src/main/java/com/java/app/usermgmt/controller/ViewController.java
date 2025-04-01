@@ -119,6 +119,18 @@ public class ViewController {
         }
     }
 
+    @GetMapping("/web/user/switch-success")
+    public String switchSuccess(HttpSession session, Model model, Authentication authentication){
+        model.addAttribute(SUCCESS_MSG_KEY, "User switch success, switched to " + authentication.getName());
+        return "success";
+    }
+
+//    @GetMapping("/web/user/impersonate/exit")
+//    public String exitImpersonation(HttpSession session, Model model, Authentication authentication){
+//        model.addAttribute(SUCCESS_MSG_KEY, "Exited Impersonation, switched back to " + authentication.getName());
+//        return "success";
+//    }
+
     // GET will prepare the page for submit with custom tokens
     @GetMapping("/web/reset-password")
     public String resetPassword(@RequestParam( name = "t") String token, HttpSession session, Model model){

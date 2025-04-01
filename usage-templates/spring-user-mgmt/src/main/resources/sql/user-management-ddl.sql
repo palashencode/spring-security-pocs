@@ -166,3 +166,17 @@ delete from user_role_mapping where user_id = 10006;
 update user_role_mapping set role="ROLE_ADMIN" where user_id=10007
 
 describe password_reset;
+
+
+
+show tables;
+
+select * from login_magic_link;
+select * from persistent_logins pl; 
+select * from users_meta;
+select * from role_permission_mapping rpm ;
+select * from users;
+select * from users_data_list udl ;
+select * from permissions;
+
+

@@ -33,7 +33,7 @@
 
                 <!-- User Meta Section (Check if user.detail is not null) -->
                 <div class="card mt-4" th:if="${user.detail != null}">
-                    <div class="card-body">
+                    <div class="card-body text-start">
                         <h4 class="card-title">User Meta</h4>
                         <p><strong>Phone Number:</strong> <span th:text="${user.detail.phoneNo}"></span></p>
                         <p><strong>Profile Picture:</strong> <img th:src="${user.detail.profilePic}" alt="Profile Picture" class="img-fluid" style="max-width: 200px;"></p>
@@ -52,8 +52,8 @@
                 <div class="card mt-4">
                     <div class="card-body">
                         <h4 class="card-title">Roles</h4>
-                        <ul>
-                            <li th:each="role : ${user.roles}" th:text="${role.role}"></li>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" th:each="role : ${user.roles}" th:text="${role.role}"></li>
                         </ul>
                     </div>
                 </div>

@@ -28,19 +28,24 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final DataSource dataSource;;
+    final String[] staticPublicEndpoints = { "/css/**", "/js/**", "/img/**", "/webjars/**", "/favicon.ico" };
+    final String[] staticSwaggerEndpoints = { "/v3/api-docs*/**", "/swagger-ui/**" };
 
     @Bean
-    SecurityFilterChain defaultSecurityFilterChainForSessionManagement(HttpSecurity http
-                                        ,CustomLoginSuccessHandler successHandler) throws Exception {
+    SecurityFilterChain defaultSecurityFilterChainForSessionManagement(HttpSecurity http,
+            CustomLoginSuccessHandler successHandler) throws Exception {
         http.authorizeHttpRequests(r -> r
-                .requestMatchers("/v3/api-docs*/**", "/swagger-ui/**").permitAll()
-                .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**", "/favicon.ico").permitAll() // Allow static resources
-                .requestMatchers("/","/web/public/**", "/web/home", "/web/forgot-password"
-                                                        , "/web/reset-password", "/web/change-password"
-                                                        , "/web/verify-user"
-                                                        , "/web/login-link", "/web/login-link-generate"
-                                                        ,"/error","/web/about", "/web/contact", "/web/services"
-                                                        ,"/web/signup","/web/login", "/login", "/perform_login").permitAll()
+                .requestMatchers(staticSwaggerEndpoints).permitAll()
+                // .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**",
+                // "/favicon.ico").permitAll() // Allow
+                // static
+                // resources
+                .requestMatchers(staticPublicEndpoints).permitAll() // Allow static resources
+                .requestMatchers("/", "/web/public/**", "/web/home", "/web/forgot-password", "/web/reset-password",
+                        "/web/change-password", "/web/verify-user", "/web/login-link", "/web/login-link-generate",
+                        "/error", "/web/about", "/web/contact", "/web/services", "/web/signup", "/web/login", "/login",
+                        "/perform_login")
+                .permitAll()
                 .requestMatchers("/api/public/**", "/api/password/**").permitAll()
                 .requestMatchers("/web/secure/**").hasAnyRole("USER", "ADMIN")
                 .requestMatchers("/web/user/**").hasAnyRole("USER", "ADMIN")
@@ -50,18 +55,19 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**").hasAnyRole("ADMIN").anyRequest().authenticated())
                 .csrf(Customizer.withDefaults())
                 .csrf(c -> c.ignoringRequestMatchers("/logout", "/login", "/web/login", "/api/app/csrf-token",
-                                                "/api/admin/impersonate", "/api/admin/impersonate/exit",
-                                                "/api/password/change"))
+                        "/web/admin/impersonate",
+                        // "/web/user/impersonate/exit",
+                        "/api/password/change"))
                 .rememberMe(r -> r
-                                // Cookie Based RememberMe, survives server restart
-//                                .userDetailsService(userDetailsService)
-                                // Persistent RememberMe, survives server restart
-                                // The server keeps rotating the remember-me cookie value everytime it is used
-                                .tokenRepository(persistentTokenRepository())
-                                // common parameters
-                                .key("secret-remember-me")
-                                .rememberMeCookieName("remember-me-cookie")
-                                .tokenValiditySeconds(864000))
+                        // Cookie Based RememberMe, survives server restart
+                        // .userDetailsService(userDetailsService)
+                        // Persistent RememberMe, survives server restart
+                        // The server keeps rotating the remember-me cookie value everytime it is used
+                        .tokenRepository(persistentTokenRepository())
+                        // common parameters
+                        .key("secret-remember-me")
+                        .rememberMeCookieName("remember-me-cookie")
+                        .tokenValiditySeconds(864000))
                 // This additional attribute makes a Persistent Remember Me Cookie
                 .formLogin(c -> c.loginPage("/web/login")
                         .successHandler(successHandler)
@@ -70,12 +76,12 @@ public class SecurityConfig {
                 .oauth2Login(o -> o.loginPage("/web/login"))
                 .logout(c -> c.logoutUrl("/logout")
                         .logoutSuccessUrl("/web/home"));
-//                .httpBasic(Customizer.withDefaults());
+        // .httpBasic(Customizer.withDefaults());
         return http.build();
     }
 
     // For Remember-Me
-    public PersistentTokenRepository persistentTokenRepository(){
+    public PersistentTokenRepository persistentTokenRepository() {
         JdbcTokenRepositoryImpl db = new JdbcTokenRepositoryImpl();
         db.setDataSource(dataSource);
         return db;
@@ -83,13 +89,13 @@ public class SecurityConfig {
     }
 
     @Bean
-    ClientRegistrationRepository clientRegistrationRepository(){
+    ClientRegistrationRepository clientRegistrationRepository() {
         ClientRegistration git = githubClientRegistration();
         ClientRegistration google = googleClientRegistration();
         return new InMemoryClientRegistrationRepository(git, google);
     }
 
-    private ClientRegistration githubClientRegistration(){
+    private ClientRegistration githubClientRegistration() {
         return CommonOAuth2Provider.GITHUB.getBuilder("github")
                 .clientId("Ov23liY8Xlu3FkrcCgRL")
                 .clientSecret("ffc8d8d5a645ba68715b2535cd4d9cc6cb51cd52")
@@ -97,7 +103,7 @@ public class SecurityConfig {
                 .build();
     }
 
-    private ClientRegistration googleClientRegistration(){
+    private ClientRegistration googleClientRegistration() {
         return CommonOAuth2Provider.GOOGLE.getBuilder("google")
                 .clientId("736116120342-nqevg7h3abrv31gjl8f7n56b1rdvt15q.apps.googleusercontent.com")
                 .clientSecret("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")
@@ -105,20 +111,21 @@ public class SecurityConfig {
                 .build();
     }
 
-
-
     @Bean
-    public PasswordEncoder getPasswordEncoder(){
+    public PasswordEncoder getPasswordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 
     @Bean
-    public SwitchUserFilter switchUserFilter(){
+    public SwitchUserFilter switchUserFilter() {
         SwitchUserFilter filter = new SwitchUserFilter();
         filter.setUserDetailsService(userDetailsService);
-        filter.setSwitchUserUrl("/api/admin/impersonate");
-        filter.setExitUserUrl("/api/admin/impersonate/exit");
-        filter.setTargetUrl("/api/app/switch-success");
+        // filter.setSwitchUserUrl("/api/admin/impersonate");
+        // filter.setExitUserUrl("/api/admin/impersonate/exit");
+        // filter.setTargetUrl("/api/app/switch-success");
+        filter.setSwitchUserUrl("/web/admin/impersonate");
+        filter.setExitUserUrl("/web/user/impersonate/exit");
+        filter.setTargetUrl("/web/user/switch-success");
         return filter;
     }
 

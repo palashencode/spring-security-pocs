@@ -73,7 +73,15 @@
             </a>
             <ul class="dropdown-menu bg-dark" style="border: none;" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item nav-link d-inline-block ps-2" th:href="@{/web/user}">User Page</a></li>
-                <li><a class="dropdown-item nav-link d-inline-block ps-2" th:href="@{/web/admin}">Admin Page</a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}"><a class="dropdown-item nav-link d-inline-block ps-2" th:href="@{/web/admin}">Admin Page</a></li>
+                <li th:if="${#authorization.expression('hasRole(''ROLE_PREVIOUS_ADMINISTRATOR'')')}">
+                    <form th:action="@{/web/user/impersonate/exit}" method="post" class="d-inline">
+                        <button type="submit" class="dropdown-item nav-link d-inline-block ps-2" style="border: none; background: none; cursor: pointer; width: 100%; text-align: left;">
+                            Exit Impersonation
+                        </button>
+                    </form>
+                </li>
+
                 <!-- Divider styled for dark theme -->
                 <!-- <li><hr class="dropdown-divider" style="border-color: rgba(255, 255, 255, 0.1);"></li>
                 <li><a class="dropdown-item nav-link d-inline-block ps-3" href="#">Something else here</a></li> -->

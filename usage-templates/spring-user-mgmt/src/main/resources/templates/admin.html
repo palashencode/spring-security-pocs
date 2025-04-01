@@ -28,6 +28,7 @@
                         <th>Status</th>
                         <th>Roles</th>
                         <th>Details</th>
+                        <th>Admin Function : Impersonation</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,6 +46,12 @@
                             </ul>
                         </td>
                         <td th:text="${user.detail != null ? user.detail.toString() : 'No additional details'}"></td>
+                        <td>
+                            <form th:action="@{/web/admin/impersonate}" method="post">
+                                <input type="hidden" name="username" th:value="${user.username}" />
+                                <button type="submit">Impersonate</button>
+                            </form>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

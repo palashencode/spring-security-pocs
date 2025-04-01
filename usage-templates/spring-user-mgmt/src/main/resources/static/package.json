@@ -1,0 +1,17 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "starter templte for monolithic apps",
+  "main": "index.js",
+  "scripts": {
+    "sass:build": "sass scss:css --no-source-map",
+    "sass:watch": "sass --no-source-map --watch scss:css"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "bootstrap": "^5.3.3",
+    "sass": "^1.86.0"
+  }
+}

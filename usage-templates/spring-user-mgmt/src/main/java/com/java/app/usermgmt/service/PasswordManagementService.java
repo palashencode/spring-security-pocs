@@ -141,7 +141,9 @@ public class PasswordManagementService {
             link.setExpiryDate(Instant.now().plus(5, ChronoUnit.MINUTES));
             link.setToken(token);
         loginMagicLinkRepository.save(link);
-        emailSenderService.sendLoginMagicLink(username, token);
+//        emailSenderService.sendLoginMagicLink(username, token);
+//        emailSenderService.sendLoginMagicLinkWithTemplate(username, token);
+        emailSenderService.sendLoginMagicLinkWithTemplateWithImage(username, token);
         return true;
     }
 
@@ -201,7 +203,8 @@ public class PasswordManagementService {
         pendingUser.setVerificationTime(null);
         pendingUser.setVerified(false);
         pendingUserVerificationRepository.save(pendingUser);
-        emailSenderService.verifyRegistrationUserEmail(username, verificationToken);
+//        emailSenderService.verifyRegistrationUserEmail(username, verificationToken);
+        emailSenderService.verifyRegistrationUserEmailWithTemplate(username, verificationToken);
         return "Success! Now check your email to confirm your registration.";
     }
 
